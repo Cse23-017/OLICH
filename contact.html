@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Olich Constructions</title>
+  <link rel="stylesheet" href="base.css" />
+  <link rel="stylesheet" href="contact.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  EmailJS SETUP — do this before going live:              ║
+    ║  1. Sign up at https://emailjs.com (free tier = 200/mo)  ║
+    ║  2. Add an Email Service (Gmail, Outlook, etc.)          ║
+    ║  3. Create an Email Template — use these variables:      ║
+    ║       {{from_name}}  {{from_email}}  {{phone}}           ║
+    ║       {{company}}    {{message}}     {{reply_to}}        ║
+    ║  4. Replace the three placeholders below with your IDs   ║
+    ╚══════════════════════════════════════════════════════════╝
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+  <!-- Nav Bar -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="Olich_logo.png" alt="Olich Constructions" class="logo-img">
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="contact-hero">
+    <h1>Let's Work Together</h1>
+    <p>Have a project in mind? We'd love to hear from you. Fill out the form or reach us through the details below.</p>
+  </section>
+
+  <!-- Contact Form & Info -->
+  <section class="contact-section">
+
+    <div class="contact-form">
+      <h2>Send Us a Message</h2>
+
+      <form id="contactForm" novalidate autocomplete="off">
+
+        <!-- Honeypot — hidden trap for bots, never shown to users -->
+        <input class="hp-field" type="text" name="_hp" tabindex="-1" autocomplete="off">
+
+        <input type="text"  id="name"    name="name"    placeholder="Your Name *"  required maxlength="100">
+        <input type="email" id="email"   name="email"   placeholder="Your Email *" required maxlength="150">
+        <input type="tel"   id="phone"   name="phone"   placeholder="Phone (optional)" maxlength="20">
+
+        <!-- Optional company field -->
+        <input type="text"  id="company" name="company" placeholder="Company / Organisation" maxlength="100">
+        <!-- small hint under the field -->
+        <p style="font-size:0.78rem;color:#9ca3af;margin:-8px 0 14px;padding-left:2px;">
+          <span class="field-optional">Optional — leave blank if personal enquiry</span>
+        </p>
+
+        <textarea id="messageInput" name="message" rows="5" maxlength="500"
+          placeholder="Your Message *" required></textarea>
+        <p id="charCount">500 characters remaining</p>
+
+        <button type="submit" id="submitBtn">
+          <span class="btn-label">Send Message</span>
+          <span class="spinner"></span>
+        </button>
+      </form>
+
+      <p id="formResponse" class="form-response" role="alert" aria-live="polite"></p>
+    </div>
+
+    <div class="contact-info">
+      <h2>Get In Touch</h2>
+      <div class="info-row"><i class="fas fa-envelope"></i><span>info@olichconstructions.com</span></div>
+      <div class="info-row"><i class="fas fa-phone"></i><span>+267 700 000 000</span></div>
+      <div class="info-row"><i class="fas fa-map-marker-alt"></i><span>Gaborone, Botswana</span></div>
+      <div class="info-row"><i class="fas fa-clock"></i><span>Mon – Fri: 8AM – 5PM</span></div>
+
+      <div class="social-links">
+        <a href="https://linkedin.com"  target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://facebook.com"  target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Olich Constructions</h3>
+        <p>Delivering quality construction and interior design solutions across Botswana.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Grow With Us</h4>
+        <p>Looking to grow your business? Get a personalised quote today!</p>
+        <button class="quote-button">Get a Quote</button>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Olich Constructions. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* ── EmailJS config — replace these three values ── */
+    const EMAILJS_PUBLIC_KEY  = '5_woX4PU44Ja7YQJe';  // from EmailJS → Account → Public Key
+    const EMAILJS_SERVICE_ID  = 'service_4lvvkjn';   // from EmailJS → Email Services
+    const EMAILJS_TEMPLATE_ID = 'template_onlqna5';  // from EmailJS → Email Templates
+
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+    /* ── Rate limiting — max 3 submissions per 10 minutes ── */
+    const RATE_LIMIT = { max: 3, windowMs: 10 * 60 * 1000 };
+
+    function getRateData() {
+      try {
+        return JSON.parse(sessionStorage.getItem('oc_rl') || '{"count":0,"start":0}');
+      } catch { return { count: 0, start: 0 }; }
+    }
+
+    function checkRateLimit() {
+      const now = Date.now();
+      let data = getRateData();
+      if (now - data.start > RATE_LIMIT.windowMs) data = { count: 0, start: now };
+      if (data.count >= RATE_LIMIT.max) return false;
+      data.count++;
+      sessionStorage.setItem('oc_rl', JSON.stringify(data));
+      return true;
+    }
+
+    /* ── Sanitize: strip HTML tags from user input ── */
+    function sanitize(str) {
+      return str.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
+    }
+
+    /* ── Validate email format ── */
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    }
+
+    /* ── Character counter ── */
+    const messageInput = document.getElementById('messageInput');
+    const charCount    = document.getElementById('charCount');
+
+    messageInput.addEventListener('input', () => {
+      const remaining = 500 - messageInput.value.length;
+      charCount.textContent = remaining + ' characters remaining';
+      charCount.className = remaining < 50 ? 'danger' : remaining < 150 ? 'warning' : '';
+    });
+
+    /* ── Form submission ── */
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const btn      = document.getElementById('submitBtn');
+      const response = document.getElementById('formResponse');
+
+      // Clear previous state
+      response.className = 'form-response';
+      response.textContent = '';
+      document.querySelectorAll('.contact-form input, .contact-form textarea')
+        .forEach(el => el.classList.remove('error'));
+
+      // Honeypot check — bots fill hidden fields, humans don't
+      if (document.querySelector('[name="_hp"]').value !== '') return;
+
+      // Rate limit check
+      if (!checkRateLimit()) {
+        response.className = 'form-response error';
+        response.textContent = 'Too many submissions. Please wait a few minutes and try again.';
+        return;
+      }
+
+      // Collect & sanitize values
+      const name    = sanitize(document.getElementById('name').value);
+      const email   = sanitize(document.getElementById('email').value);
+      const phone   = sanitize(document.getElementById('phone').value);
+      const company = sanitize(document.getElementById('company').value);
+      const message = sanitize(messageInput.value);
+
+      // Client-side validation
+      let hasError = false;
+
+      if (!name) {
+        document.getElementById('name').classList.add('error');
+        hasError = true;
+      }
+      if (!email || !isValidEmail(email)) {
+        document.getElementById('email').classList.add('error');
+        hasError = true;
+      }
+      if (!message) {
+        document.getElementById('messageInput').classList.add('error');
+        hasError = true;
+      }
+
+      if (hasError) {
+        response.className = 'form-response error';
+        response.textContent = 'Please fill in all required fields correctly.';
+        return;
+      }
+
+      // Loading state
+      btn.disabled = true;
+      btn.classList.add('btn-loading');
+
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          from_name:  name,
+          from_email: email,
+          reply_to:   email,
+          phone:      phone  || 'Not provided',
+          company:    company || 'Not provided',
+          message:    message,
+        });
+
+        // Success
+        response.className = 'form-response success';
+        response.textContent = '✓ Message sent! We\'ll get back to you within 1–2 business days.';
+        this.reset();
+        charCount.textContent = '500 characters remaining';
+        charCount.className = '';
+
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        response.className = 'form-response error';
+        response.textContent = 'Something went wrong. Please try emailing us directly at info@olichconstructions.com';
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove('btn-loading');
+      }
+    });
+
+    /* ── Footer year ── */
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
